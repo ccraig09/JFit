@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { wp, hp } from "./designDimensions";
 
 const Card = (props) => {
-  var descriptions = [
-    "Breast cancer is the second most common cancer in women after skin cancer",
-    "Leukemia is a broad term for cancers of the blood cells",
-    "Lymphoma is a broad term for cancer that begins in cells of the lymph system",
-  ];
-
   let Comp;
   if (props.selected === props.index) {
     Comp = TouchableOpacity;
@@ -19,24 +19,32 @@ const Card = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.topHalf}>
-        <Text
-          accessible={true}
-          accessibilityRole="text"
-          style={[
-            styles.text,
-            {
-              color: props.selected === props.index ? "black" : "grey",
-            },
-          ]}
-        >
-          {props.data.day}
-        </Text>
+        <View>
+          <Text
+            accessible={true}
+            accessibilityRole="text"
+            style={[
+              styles.text,
+              {
+                color: props.selected === props.index ? "black" : "grey",
+              },
+            ]}
+          >
+            {props.data.day}
+          </Text>
+
+          {props.selected !== props.index ? (
+            <Text style={{ fontSize: 15, textAlign: "center" }}>
+              ({props.data.muscle})
+            </Text>
+          ) : null}
+        </View>
 
         <Comp
           accessible={true}
           accessibilityRole="button"
           activeOpacity={0.6}
-          style={{ flexDirection: "row" }}
+          style={{ flexDirection: "row", alignItems: "center" }}
           onPress={() => {
             if (props.selected === props.index) {
               props.onNext();
@@ -79,10 +87,36 @@ const Card = (props) => {
           ]}
         >
           <Text style={styles.hiddenTextTitle}>{props.data.description}</Text>
-          <Text style={styles.hiddenText}>
-            {"\u2B24"}
-            {"  "}
-            {props.data.exercises}
+          {props.data.exercises.map((exercise, index) => {
+            return (
+              <View key={index}>
+                <Text
+                  style={
+                    props.data.exercises.length - 1 === index
+                      ? styles.hiddenText
+                      : styles.hiddenTextGreen
+                  }
+                >
+                  {props.data.exercises.length - 1 !== index ? "\u2B24" : "🔥"}
+                  {"  "}
+                  {exercise}
+                </Text>
+              </View>
+            );
+          })}
+
+          <Text
+            style={{
+              color: props.data.day === "Thursday" ? null : "blue",
+              textAlign: "center",
+              margin: 10,
+            }}
+            onPress={() => Linking.openURL(props.data.abs)}
+          >
+            {" "}
+            {props.data.day === "Thursday"
+              ? "⭐️ abs are just 2 sets of 1 minute planks"
+              : "Click here for Ab video"}
           </Text>
         </View>
       )}
@@ -146,11 +180,18 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#575757",
   },
+
   hiddenText: {
     fontSize: 20,
-    fontWeight: "300",
+    fontWeight: "400",
     padding: 10,
-    color: "#575757",
+    color: "orange",
+  },
+  hiddenTextGreen: {
+    fontSize: 20,
+    fontWeight: "400",
+    padding: 10,
+    color: "green",
   },
   list: {
     overflow: "hidden",

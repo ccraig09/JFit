@@ -6,6 +6,16 @@ const ListComponent = (props) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [pressed, setPressed] = useState(false);
 
+  function clickHandler(index) {
+    if (selectedIndex === index) {
+      setSelectedIndex(null);
+      setPressed(!pressed);
+    } else {
+      setPressed(!pressed);
+      setSelectedIndex(index);
+    }
+  }
+
   if (props.data.length === 0) {
     return <Text>No data was loaded.</Text>;
   } else {
@@ -13,14 +23,7 @@ const ListComponent = (props) => {
       <TouchableOpacity
         activeOpacity={0.6}
         onPress={() => {
-          if (selectedIndex === index) {
-            setSelectedIndex(null);
-            console.log(data);
-            setPressed(!pressed);
-          } else {
-            setPressed(!pressed);
-            setSelectedIndex(index);
-          }
+          clickHandler(index);
         }}
         key={index}
       >
@@ -29,7 +32,7 @@ const ListComponent = (props) => {
           index={index}
           selected={selectedIndex}
           onNext={() => {
-            props.onSelection(index);
+            clickHandler(index);
           }}
           pressed={pressed}
         ></Card>
