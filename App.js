@@ -5,12 +5,6 @@ import ListComponent from "./components/ListComponent";
 import Header from "./components/UI/Header";
 
 export default function App() {
-  // const [workouts, setWorkouts] = useState(workouts);
-
-  const addWorkout = (workout) => {
-    setWorkouts([...workouts, workout]);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
