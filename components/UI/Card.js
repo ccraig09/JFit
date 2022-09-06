@@ -7,6 +7,7 @@ import {
   Linking,
 } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import Notes from "../Notes";
 import { wp, hp } from "./designDimensions";
 
 const Card = (props) => {
@@ -118,6 +119,9 @@ const Card = (props) => {
               ? "⭐️ abs are just 2 sets of 1 minute planks"
               : "Click here for Ab video"}
           </Text>
+          <View style={{ padding: 10 }}>
+            <Notes id={props.id} />
+          </View>
         </View>
       )}
     </View>

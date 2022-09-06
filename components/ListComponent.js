@@ -28,6 +28,7 @@ const ListComponent = (props) => {
         key={index}
       >
         <Card
+          id={data.id}
           data={data}
           index={index}
           selected={selectedIndex}
